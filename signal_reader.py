@@ -48,9 +48,43 @@ def print_signal(file_csv):
             pX = 0
             pY += 1
         
-
     pylab.show()
 
+def interface():
+    while True:
+        print("SIGNAL READER")
+        print("----------------------------")
+        print("Choose option:")
+        print("1. Convert .txt to .csv")
+        print("2. Enter .csv file")
+        print("3. Choose EKG signal")
+        print("4. Print  all EKG signals\n")
+        choice = input("=> ")
+    
+        while True:
+            if choice == "1":
+                file_txt = input("Enter .txt file: ")
+                convert_txt_to_csv(file_txt)
+                break
+                
+            
+            if choice == "2":
+                file_csv = input("Enter .csv file: ")
+                break
+                
+            
+            #if choice == 3:
+            
+            if choice == "4":
+                print_signal(file_csv)
+                break
+                    
 
+
+
+
+    
+
+interface()
 #convert_txt_to_csv("ekg1.txt")
-print_signal("ekg1.csv")
+#print_signal("ekg1.csv")
