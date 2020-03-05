@@ -19,7 +19,25 @@ def convert_txt_to_csv(file_txt):
 
 
 # Function printing EKG signal
-def print_signal(file_csv):
+def print_signal(file_csv, name):
+
+    signal = pandas.read_csv(file_csv)
+    line = []
+
+    for index, row in signal.iterrows():
+        line.append(row[name])
+
+    y = line
+    x = range(0, len(y))
+
+    pylab.plot(x,y, 'r')
+    pylab.grid(True)
+    pylab.title(signal.columns[signal.columns.get_loc(name)])
+    pylab.show()
+
+
+# Function printing EKG signal
+def print_all_signals(file_csv):
 
     signal = pandas.read_csv(file_csv)
     i = 0
@@ -50,6 +68,8 @@ def print_signal(file_csv):
         
     pylab.show()
 
+
+
 def interface():
     while True:
         print("SIGNAL READER")
@@ -57,7 +77,7 @@ def interface():
         print("Choose option:")
         print("1. Convert .txt to .csv")
         print("2. Enter .csv file")
-        print("3. Choose EKG signal")
+        print("3. Choose EKG signal [I, II, III, aVR, aVL, AVF, V3R, V1, V2, V4, V5, V6]")
         print("4. Print  all EKG signals\n")
         choice = input("=> ")
     
@@ -73,17 +93,18 @@ def interface():
                 break
                 
             
-            #if choice == 3:
+            if choice == "3":
+                name = input("Enter signal name: ")
+                print_signal(file_csv, name)
+                break
             
+
             if choice == "4":
-                print_signal(file_csv)
+                print_all_signals(file_csv)
                 break
                     
 
 
-
-
-    
 
 interface()
 #convert_txt_to_csv("ekg1.txt")
