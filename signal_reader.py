@@ -36,7 +36,7 @@ def print_signal(file_csv, name):
     pylab.show()
 
 
-# Function printing EKG signal
+# Function printing all EKG signals
 def print_all_signals(file_csv):
 
     signal = pandas.read_csv(file_csv)
@@ -86,26 +86,19 @@ def interface():
                 file_txt = input("Enter .txt file: ")
                 convert_txt_to_csv(file_txt)
                 break
-                
-            
+                           
             if choice == "2":
                 file_csv = input("Enter .csv file: ")
                 break
                 
-            
             if choice == "3":
                 name = input("Enter signal name: ")
                 print_signal(file_csv, name)
                 break
             
-
             if choice == "4":
                 print_all_signals(file_csv)
                 break
                     
 
-
-
 interface()
-#convert_txt_to_csv("ekg1.txt")
-#print_signal("ekg1.csv")
