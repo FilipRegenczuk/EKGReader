@@ -70,40 +70,58 @@ def print_all_signals(file_csv):
     pylab.show()
 
 
-
+# Termianl interface
 def interface():
+    file_csv = ""
+
     while True:
-        print("----------------------------")
+        print("\n----------------------------")
         print("SIGNAL READER")
         print("----------------------------")
-        print("Choose option:")
+        print("Loaded file:", file_csv)
+        print("\nChoose option:")
         print("1. Convert .txt to .csv")
         print("2. Enter .csv file")
         print("3. Choose EKG signal [I, II, III, aVR, aVL, AVF, V3R, V1, V2, V4, V5, V6]")
         print("4. Print  all EKG signals")
         print("5. Quit\n")
-        choice = input("=> ")
-    
+
         while True:
-            if choice == "1":
+            try:
+                choice = int(input("=> "))
+                break
+            except ValueError:
+                print("Valid option!")
+    
+
+        while True:
+            if choice == 1:
                 file_txt = input("Enter .txt file: ")
-                convert_txt_to_csv(file_txt)
+
+                if file_txt.endswith(".txt"):
+                    convert_txt_to_csv(file_txt)
+                else:
+                    print("File must be .txt type!")
                 break
                            
-            if choice == "2":
+            if choice == 2:
                 file_csv = input("Enter .csv file: ")
                 break
-                
-            if choice == "3":
+
+            if choice == 3:
                 name = input("Enter signal name: ")
-                print_signal(file_csv, name)
+
+                if name in ["I", "II", "III", "aVR", "aVL", "AVF", "V3R", "V1", "V2", "V4", "V5", "V6"]:
+                    print_signal(file_csv, name)
+                else:
+                    print("Wrong signal name!")
                 break
             
-            if choice == "4":
+            if choice == 4:
                 print_all_signals(file_csv)
                 break
 
-            if choice == "5":
+            if choice == 5:
                 sys.exit()
                     
 
