@@ -3,7 +3,7 @@ import pandas
 import sys
 
 
-# Function preparing .txt file with spaces to EKG .csv file
+# Function converting .txt file with spaces to EKG .csv file
 def convert_txt_to_csv(file_txt):
 
     header_list_ekg = "I,II,III,aVR,aVL,AVF,V3R,V1,V2,V4,V5,V6"
@@ -16,7 +16,6 @@ def convert_txt_to_csv(file_txt):
     with open(file_txt + ".csv", "w") as file:
         file.write(header_list_ekg + "\n")
         file.write(content)
-
 
 
 # Function printing EKG signal
