@@ -1,5 +1,6 @@
 import pylab
 import pandas
+import sys
 
 
 # Function preparing .txt file with spaces to EKG .csv file
@@ -72,13 +73,15 @@ def print_all_signals(file_csv):
 
 def interface():
     while True:
+        print("----------------------------")
         print("SIGNAL READER")
         print("----------------------------")
         print("Choose option:")
         print("1. Convert .txt to .csv")
         print("2. Enter .csv file")
         print("3. Choose EKG signal [I, II, III, aVR, aVL, AVF, V3R, V1, V2, V4, V5, V6]")
-        print("4. Print  all EKG signals\n")
+        print("4. Print  all EKG signals")
+        print("5. Quit\n")
         choice = input("=> ")
     
         while True:
@@ -99,6 +102,9 @@ def interface():
             if choice == "4":
                 print_all_signals(file_csv)
                 break
+
+            if choice == "5":
+                sys.exit()
                     
 
 interface()
