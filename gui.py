@@ -2,6 +2,10 @@ import tkinter as tk
 import os
 from PIL import Image, ImageTk
 from tkinter import filedialog
+from backend import Backend
+
+backend = Backend()
+
 
 class Window(object):
 
@@ -26,7 +30,7 @@ class Window(object):
         py = 5
         buttonFile = tk.Button(window, text="Enter EKG file", width=15, command=self.browseFiles)
         buttonFile.grid(row=1, column=0, padx=px, pady=py)
-        buttonPrintAll = tk.Button(window, text="Print all signals", width=15)
+        buttonPrintAll = tk.Button(window, text="Print all signals", width=15, command=self.printSignals)
         buttonPrintAll.grid(row=2, column=0, padx=px, pady=py)
         buttonPrintOne = tk.Button(window, text="Print a signal", width=15)
         buttonPrintOne.grid(row=2, column=1, padx=px, pady=py)
@@ -37,15 +41,21 @@ class Window(object):
 
         # Entry:
         self.file = tk.StringVar()
-        self.entryFile = tk.Entry(window, textvariable=self.file, width=18)
+        self.entryFile = tk.Entry(window, textvariable=self.file, state='readonly', width=18)
         self.entryFile.grid(row=1, column=1, padx=px, pady=py)
 
 
     def browseFiles(self): 
         self.file = filedialog.askopenfilename(title = "Select a file", filetypes = (("Text or CSV files", "*.txt *.csv"), ))
         filename = os.path.basename(self.file)
+        self.entryFile.configure(state='normal')
         self.entryFile.delete(0, tk.END)
         self.entryFile.insert(tk.END, filename)
+        self.entryFile.configure(state='readonly')
+
+    
+    def printSignals(self):
+        backend.print_all_signals("ekg1.csv")
        
     
     def openInstructionWindow(self):

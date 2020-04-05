@@ -3,67 +3,70 @@ import pandas
 import sys
 
 
-# Function converting .txt file with spaces to EKG .csv file
-def convert_txt_to_csv(file_txt):
+class Backend(object):
 
-    header_list_ekg = "I,II,III,aVR,aVL,AVF,V3R,V1,V2,V4,V5,V6"
+    
+    # Function converting .txt file with spaces to EKG .csv file
+    def convert_txt_to_csv(file_txt):
 
-    with open(file_txt) as file:
-        content = file.read()
+        header_list_ekg = "I,II,III,aVR,aVL,AVF,V3R,V1,V2,V4,V5,V6"
 
-    content = content.replace(" ", ",")
+        with open(file_txt) as file:
+            content = file.read()
 
-    with open(file_txt + ".csv", "w") as file:
-        file.write(header_list_ekg + "\n")
-        file.write(content)
+        content = content.replace(" ", ",")
 
-
-# Function printing EKG signal
-def print_signal(file_csv, name):
-
-    signal = pandas.read_csv(file_csv)
-    line = []
-
-    for index, row in signal.iterrows():
-        line.append(row[name])
-
-    y = line
-    x = range(0, len(y))
-
-    pylab.plot(x,y, 'r')
-    pylab.grid(True)
-    pylab.title(signal.columns[signal.columns.get_loc(name)])
-    pylab.show()
+        with open(file_txt + ".csv", "w") as file:
+            file.write(header_list_ekg + "\n")
+            file.write(content)
 
 
-# Function printing all EKG signals
-def print_all_signals(file_csv):
+    # Function printing EKG signal
+    def print_signal(file_csv, name):
 
-    signal = pandas.read_csv(file_csv)
-    i = 0
-    pX = 0
-    pY = 0
-
-    while i <= 11:
-        
+        signal = pandas.read_csv(file_csv)
         line = []
+
         for index, row in signal.iterrows():
-            line.append(row[i])
+            line.append(row[name])
 
         y = line
         x = range(0, len(y))
 
-        pylab.subplot2grid((6,2), (pX,pY))
         pylab.plot(x,y, 'r')
         pylab.grid(True)
-        pylab.title(signal.columns[i])
+        pylab.title(signal.columns[signal.columns.get_loc(name)])
+        pylab.show()
 
-        i += 1
 
-        if pX < 5:
-            pX += 1
-        else:
-            pX = 0
-            pY += 1
-        
-    pylab.show()
+    # Function printing all EKG signals
+    def print_all_signals(file_csv):
+
+        signal = pandas.read_csv(file_csv)
+        i = 0
+        pX = 0
+        pY = 0
+
+        while i <= 11:
+            
+            line = []
+            for index, row in signal.iterrows():
+                line.append(row[i])
+
+            y = line
+            x = range(0, len(y))
+
+            pylab.subplot2grid((6,2), (pX,pY))
+            pylab.plot(x,y, 'r')
+            pylab.grid(True)
+            pylab.title(signal.columns[i])
+
+            i += 1
+
+            if pX < 5:
+                pX += 1
+            else:
+                pX = 0
+                pY += 1
+            
+        pylab.show()
