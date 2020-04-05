@@ -1,4 +1,5 @@
 import tkinter as tk 
+import os
 from PIL import Image, ImageTk
 from tkinter import filedialog
 
@@ -35,12 +36,16 @@ class Window(object):
         buttonQuit.grid(row=3, column=1, padx=px, pady=py)
 
         # Entry:
-        entryFile = tk.Entry(window, width=18)
-        entryFile.grid(row=1, column=1, padx=px, pady=py)
+        self.file = tk.StringVar()
+        self.entryFile = tk.Entry(window, textvariable=self.file, width=18)
+        self.entryFile.grid(row=1, column=1, padx=px, pady=py)
 
 
     def browseFiles(self): 
-        filename = filedialog.askopenfilename(initialdir = "/", title = "Select a File", filetypes = (("Text files", "*.txt*"), ("all files", "*.*"))) 
+        self.file = filedialog.askopenfilename(title = "Select a file", filetypes = (("Text or CSV files", "*.txt *.csv"), ))
+        filename = os.path.basename(self.file)
+        self.entryFile.delete(0, tk.END)
+        self.entryFile.insert(tk.END, filename)
        
     
     def openInstructionWindow(self):
