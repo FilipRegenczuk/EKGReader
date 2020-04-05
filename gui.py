@@ -51,9 +51,9 @@ class WindowInstruction(object):
         self.window = window
 
         instruction = """
-        EKG Reader application is used to print EKG signals.
-        User can enter .txt or .csv files of EKG signals,
-        which he/she wants to print.
+        EKG Reader application is used to print EKG 
+        signals. User can enter .txt or .csv files 
+        of EKG signals, which he/she wants to print.
 
         Steps: 
         1. Enter EKG file.
@@ -68,12 +68,14 @@ class WindowInstruction(object):
         window.iconbitmap('images/icon.ico')
 
         # Labels:
-        labelTitle = tk.Label(window, text="Instruction:", font='bold', justify='left')
+        labelTitle = tk.Label(window, text="Instruction:", font='bold')
         labelTitle.pack()
-        labelInstruction = tk.Label(window, text=instruction)
+        labelInstruction = tk.Label(window, text=instruction, anchor='w', justify='left', width=300)
         labelInstruction.pack()
 
-
+        # Button:
+        buttonOK = tk.Button(window, text="OK", width=15, command=window.destroy)
+        buttonOK.pack(pady=10)
 
 window = tk.Tk()
 Window(window)
