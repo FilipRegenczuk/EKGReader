@@ -1,5 +1,6 @@
 import tkinter as tk 
 from PIL import Image, ImageTk
+from tkinter import filedialog
 
 class Window(object):
 
@@ -22,7 +23,7 @@ class Window(object):
         # Buttons:
         px = 20
         py = 5
-        buttonFile = tk.Button(window, text="Enter EKG file", width=15)
+        buttonFile = tk.Button(window, text="Enter EKG file", width=15, command=self.browseFiles)
         buttonFile.grid(row=1, column=0, padx=px, pady=py)
         buttonPrintAll = tk.Button(window, text="Print all signals", width=15)
         buttonPrintAll.grid(row=2, column=0, padx=px, pady=py)
@@ -37,6 +38,10 @@ class Window(object):
         entryFile = tk.Entry(window, width=18)
         entryFile.grid(row=1, column=1, padx=px, pady=py)
 
+
+    def browseFiles(self): 
+        filename = filedialog.askopenfilename(initialdir = "/", title = "Select a File", filetypes = (("Text files", "*.txt*"), ("all files", "*.*"))) 
+       
     
     def openInstructionWindow(self):
         windowInstruction = tk.Tk()
@@ -68,7 +73,7 @@ class WindowInstruction(object):
         window.iconbitmap('images/icon.ico')
 
         # Labels:
-        labelTitle = tk.Label(window, text="Instruction:", font='bold')
+        labelTitle = tk.Label(window, text="Instruction:", font='bold', fg='#ae0000')
         labelTitle.pack()
         labelInstruction = tk.Label(window, text=instruction, anchor='w', justify='left', width=300)
         labelInstruction.pack()
