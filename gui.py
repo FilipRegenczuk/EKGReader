@@ -55,7 +55,7 @@ class Window(object):
 
     
     def printSignals(self):
-        backend.print_all_signals("ekg1.csv")
+        backend.print_all_signals(self.file)
        
     
     def openInstructionWindow(self):
