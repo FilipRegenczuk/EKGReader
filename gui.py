@@ -82,7 +82,7 @@ class WindowInstruction(object):
         """
 
         # Window features
-        window.title("EKG Reader: Instruction")
+        window.title("Instruction")
         window.resizable(0, 0)
         window.geometry('310x240')
         window.iconbitmap('images/icon.ico')
@@ -96,6 +96,7 @@ class WindowInstruction(object):
         # Button:
         buttonOK = tk.Button(window, text="OK", width=15, command=window.destroy)
         buttonOK.pack(pady=10)
+
 
 window = tk.Tk()
 Window(window)
