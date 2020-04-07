@@ -1,7 +1,7 @@
 import tkinter as tk 
 import os
 from PIL import Image, ImageTk
-from tkinter import filedialog
+from tkinter import filedialog, ttk
 from backend import Backend
 
 backend = Backend()
@@ -32,7 +32,7 @@ class Window(object):
         buttonFile.grid(row=1, column=0, padx=px, pady=py)
         buttonPrintAll = tk.Button(window, text="Print all signals", width=15, command=self.printSignals)
         buttonPrintAll.grid(row=2, column=0, padx=px, pady=py)
-        buttonPrintOne = tk.Button(window, text="Print a signal", width=15)
+        buttonPrintOne = tk.Button(window, text="Print a signal", width=15, command=self.openSignalWindow)
         buttonPrintOne.grid(row=2, column=1, padx=px, pady=py)
         buttonInstruction = tk.Button(window, text="Instruction", width=15, command=self.openInstructionWindow)
         buttonInstruction.grid(row=3, column=0, padx=px, pady=py)
@@ -57,11 +57,42 @@ class Window(object):
     def printSignals(self):
         backend.print_all_signals(self.file)
        
+
+    def openSignalWindow(self):
+        windowSignal = tk.Tk()
+        WindowSignal(windowSignal)
+        windowSignal.mainloop()
     
+
     def openInstructionWindow(self):
         windowInstruction = tk.Tk()
         WindowInstruction(windowInstruction)
         windowInstruction.mainloop()
+
+
+class WindowSignal(object):
+
+    def __init__(self, window):
+        self.widow = window
+
+        # Window features
+        window.title("Choose a signal")
+        window.resizable(0, 0)
+        window.geometry('300x50')
+        window.iconbitmap('images/icon.ico')
+
+        # Label:
+        labelInfo = tk.Label(window, text="Choose a signal:")
+        labelInfo.grid(row=0, column=0, padx=5, pady=12)
+
+        # Combobox:
+        signals = ["I", "II", "III", "aVR", "aVL", "AVF", "V3R", "V1", "V2", "V4", "V5", "V6"]
+        comboSignals = ttk.Combobox(window, values=signals, state="readonly", width=5)
+        comboSignals.grid(row=0, column=1, padx=5, pady=12)
+
+        # Button:
+        buttonOK = tk.Button(window, text="OK", width=15)
+        buttonOK.grid(row=0, column=2, padx=5, pady=12)
 
 
 
