@@ -33,6 +33,8 @@ def print_signal(file_csv, name):
     pylab.plot(x,y, 'r')
     pylab.grid(True)
     pylab.title(signal.columns[signal.columns.get_loc(name)])
+    pylab.xlabel("Time [ms]")
+    pylab.ylabel("Amplitude ")
     pylab.show()
 
 
@@ -57,6 +59,8 @@ def print_all_signals(file_csv):
         pylab.plot(x,y, 'r')
         pylab.grid(True)
         pylab.title(signal.columns[i])
+        pylab.xlabel("Time [ms]")
+        pylab.ylabel("Amplitude ")
 
         i += 1
 
