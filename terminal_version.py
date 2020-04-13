@@ -11,6 +11,7 @@ def convert_txt_to_csv(file_txt):
     with open(file_txt) as file:
         content = file.read()
 
+    file_txt = file_txt.replace(".txt", "")
     content = content.replace(" ", ",")
 
     with open(file_txt + ".csv", "w") as file:
@@ -19,7 +20,7 @@ def convert_txt_to_csv(file_txt):
 
 
 # Function printing EKG signal
-def print_signal(file_csv, name, start, end):
+def print_signal(file_csv, name, start, end, freq):
 
     signal = pandas.read_csv(file_csv)
     line = []
@@ -27,6 +28,7 @@ def print_signal(file_csv, name, start, end):
     for index, row in signal.iterrows():
         line.append(row[name])
 
+    # Cutting or not of Y axis
     if start == None and end == None:
         y = line
         pylab.title(signal.columns[signal.columns.get_loc(name)] + " (full signal)")
@@ -34,7 +36,12 @@ def print_signal(file_csv, name, start, end):
         y = line[start:end]
         pylab.title(signal.columns[signal.columns.get_loc(name)] + " (%dms - %dms)" %(start, end))
 
-    x = range(0, len(y))
+
+    x = list(range(0, len(y)))
+
+    # Calibration of Y axis
+    for i in x:
+        x[i] = x[i] * 1/freq * 1000
 
     pylab.plot(x,y, 'r')
     pylab.grid(True)
@@ -120,15 +127,16 @@ def interface():
                 name = input("Enter signal name: ")
 
                 if name in ["I", "II", "III", "aVR", "aVL", "AVF", "V3R", "V1", "V2", "V4", "V5", "V6"]:
+                    freq = int(input("Enter frequency: "))
                     print("Choose option:\n1. Full signal\n2. Cutted signal")
                     edit = int(input("=> "))
                     
                     if edit == 1:
-                        print_signal(file_csv, name, None, None)
+                        print_signal(file_csv, name, None, None, freq)
                     if edit == 2:
                         start = int(input("Start: "))
                         end = int(input("End: "))
-                        print_signal(file_csv, name, start, end)
+                        print_signal(file_csv, name, start, end, freq)
                 else:
                     print("Wrong signal name!")
                 break
