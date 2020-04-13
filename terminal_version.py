@@ -87,7 +87,7 @@ def print_all_signals(file_csv):
 
 # Termianl interface
 def interface():
-    file_csv = ""
+    file_csv = None
 
     while True:
         print("\n----------------------------")
