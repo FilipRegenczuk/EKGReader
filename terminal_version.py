@@ -19,7 +19,7 @@ def convert_txt_to_csv(file_txt):
 
 
 # Function printing EKG signal
-def print_signal(file_csv, name):
+def print_signal(file_csv, name, start, end):
 
     signal = pandas.read_csv(file_csv)
     line = []
@@ -27,12 +27,17 @@ def print_signal(file_csv, name):
     for index, row in signal.iterrows():
         line.append(row[name])
 
-    y = line
+    if start == None and end == None:
+        y = line
+        pylab.title(signal.columns[signal.columns.get_loc(name)] + " (full signal)")
+    else:
+        y = line[start:end]
+        pylab.title(signal.columns[signal.columns.get_loc(name)] + " (%dms - %dms)" %(start, end))
+
     x = range(0, len(y))
 
     pylab.plot(x,y, 'r')
     pylab.grid(True)
-    pylab.title(signal.columns[signal.columns.get_loc(name)])
     pylab.xlabel("Time [ms]")
     pylab.ylabel("Amplitude ")
     pylab.show()
@@ -115,7 +120,15 @@ def interface():
                 name = input("Enter signal name: ")
 
                 if name in ["I", "II", "III", "aVR", "aVL", "AVF", "V3R", "V1", "V2", "V4", "V5", "V6"]:
-                    print_signal(file_csv, name)
+                    print("Choose option:\n1. Full signal\n2. Cutted signal")
+                    edit = int(input("=> "))
+                    
+                    if edit == 1:
+                        print_signal(file_csv, name, None, None)
+                    if edit == 2:
+                        start = int(input("Start: "))
+                        end = int(input("End: "))
+                        print_signal(file_csv, name, start, end)
                 else:
                     print("Wrong signal name!")
                 break
