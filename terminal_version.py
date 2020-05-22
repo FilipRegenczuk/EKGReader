@@ -55,7 +55,7 @@ def print_signal(file_csv, name, start, end, freq, fft):
         # Number of samplepoints
         N = len(x)
         # sample spacing
-        T = 1.0 / 8000.0
+        T = 1.0 / freq
 
         x2 = numpy.linspace(0.0, N*T, N)
         yfft = numpy.fft.fft(y)
