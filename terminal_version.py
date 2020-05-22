@@ -1,6 +1,7 @@
 import pylab
 import pandas
 import sys
+import numpy
 
 
 # Function converting .txt file with spaces to EKG .csv file
@@ -20,7 +21,7 @@ def convert_txt_to_csv(file_txt):
 
 
 # Function printing EKG signal
-def print_signal(file_csv, name, start, end, freq):
+def print_signal(file_csv, name, start, end, freq, fft):
 
     signal = pandas.read_csv(file_csv)
     line = []
@@ -43,11 +44,36 @@ def print_signal(file_csv, name, start, end, freq):
     for i in x:
         x[i] = x[i] * 1/freq * 1000
 
-    pylab.plot(x,y, 'r')
-    pylab.grid(True)
-    pylab.xlabel("Time [ms]")
-    pylab.ylabel("Amplitude ")
-    pylab.show()
+    if fft == False:
+        pylab.plot(x,y, 'r')
+        pylab.grid(True)
+        pylab.xlabel("Time [ms]")
+        pylab.ylabel("Amplitude ")
+        pylab.show()
+    else:
+
+        # Number of samplepoints
+        N = int(len(x)/freq)
+        # sample spacing
+        T = 1.0 / 8000.0
+
+        x2 = numpy.linspace(0.0, N*T, N)
+        yfft = numpy.fft.fft(y)
+        xf = numpy.linspace(0.0, 1.0/(2.0*T), N/2)
+
+
+        pylab.subplot(211)
+        pylab.grid(True)
+        pylab.xlabel("Time [ms]")
+        pylab.ylabel("Amplitude ")
+        pylab.plot(x,y,'r')
+
+        pylab.subplot(212)
+        pylab.title("Transformata Fouriera")
+        pylab.grid(True)
+        pylab.plot(xf, 2.0/N * numpy.abs(yfft[:N//2]))
+
+        pylab.show()
 
 
 # Function printing all EKG signals
@@ -97,7 +123,7 @@ def interface():
         print("\nChoose option:")
         print("1. Convert .txt to .csv")
         print("2. Enter .csv file")
-        print("3. Choose EKG signal [I, II, III, aVR, aVL, AVF, V3R, V1, V2, V4, V5, V6]")
+        print("3. Print EKG signal [I, II, III, aVR, aVL, AVF, V3R, V1, V2, V4, V5, V6]")
         print("4. Print  all EKG signals")
         print("5. Quit\n")
 
@@ -132,7 +158,13 @@ def interface():
                     edit = int(input("=> "))
                     
                     if edit == 1:
-                        print_signal(file_csv, name, None, None, freq)
+                        print("Determine the fourier transform? (y/n)")
+                        fft = input("=> ")
+                        if fft == "y":
+                            print_signal(file_csv, name, None, None, freq, True)
+                        if fft == "n":
+                            print_signal(file_csv, name, None, None, freq, False)
+
                     if edit == 2:
                         start = int(input("Start: "))
                         end = int(input("End: "))

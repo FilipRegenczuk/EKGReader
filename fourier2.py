@@ -1,25 +1,37 @@
 import numpy as np
-import matplotlib.pyplot as plt
+import pylab
 
-f = 50
+# Frequency 1
+f1 = 50
+# Frequency 2
+f2 = 60
+# Signal length
 l = 65536
 # Number of samplepoints
-N = int(l/f)
+N = int(l/f1)
 # sample spacing
 T = 1.0 / 8000.0
+
 x = np.linspace(0.0, N*T, N)
-y = np.sin(50.0 * 2.0*np.pi*x) + np.sin(60.0 * 2.0*np.pi*x)
-yf = np.fft.fft(y)
+y = np.sin(f1 * 2.0*np.pi*x) + np.sin(f2 * 2.0*np.pi*x)
+yfft = np.fft.fft(y)
+yifft = np.fft.ifft(y)
 xf = np.linspace(0.0, 1.0/(2.0*T), N/2)
 
-plt.subplot(211)
-plt.grid(True)
-plt.plot(x, y)
+pylab.subplot(311)
+pylab.title("Fala łączone")
+pylab.grid(True)
+pylab.plot(x, y)
 
-plt.subplot(212)
-plt.grid(True)
-plt.plot(xf, 2.0/N * np.abs(yf[:N//2]))
-# fig, ax = plt.subplots()
-# ax.plot(xf, 2.0/N * np.abs(yf[:N//2]))
+pylab.subplot(312)
+pylab.title("Transformata Fouriera")
+pylab.grid(True)
+pylab.plot(xf, 2.0/N * np.abs(yfft[:N//2]))
 
-plt.show()
+pylab.subplot(313)
+pylab.title("Odwrotna transformata Fouriera")
+pylab.grid(True)
+pylab.plot(xf, 2.0/N * np.abs(yifft[:N//2]))
+
+
+pylab.show()
