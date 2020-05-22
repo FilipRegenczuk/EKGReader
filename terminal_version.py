@@ -53,7 +53,7 @@ def print_signal(file_csv, name, start, end, freq, fft):
     else:
 
         # Number of samplepoints
-        N = int(len(x)/freq)
+        N = len(x)
         # sample spacing
         T = 1.0 / 8000.0
 
