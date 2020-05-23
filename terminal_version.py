@@ -64,13 +64,17 @@ def print_signal(file_csv, name, start, end, freq, fft):
 
         pylab.subplot(211)
         pylab.grid(True)
+        pylab.title("EKG signal")
         pylab.xlabel("Time [ms]")
-        pylab.ylabel("Amplitude ")
+        pylab.ylabel("Amplitude")
         pylab.plot(x,y,'r')
 
         pylab.subplot(212)
-        pylab.title("Transformata Fouriera")
         pylab.grid(True)
+        pylab.title("Transformata Fouriera")
+        pylab.xlabel("Frequency [Hz]")
+        pylab.ylabel("Amplitude")
+
         pylab.plot(xf, 2.0/N * numpy.abs(yfft[:N//2]))
 
         pylab.show()
