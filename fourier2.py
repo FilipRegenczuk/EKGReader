@@ -15,7 +15,7 @@ T = 1.0 / 8000.0
 x = np.linspace(0.0, N*T, N)
 y = np.sin(f1 * 2.0*np.pi*x) + np.sin(f2 * 2.0*np.pi*x)
 yfft = np.fft.fft(y)
-yifft = np.fft.ifft(y)
+yifft = np.fft.ifft(yfft)
 xf = np.linspace(0.0, 1.0/(2.0*T), N/2)
 
 pylab.subplot(311)
@@ -30,14 +30,14 @@ pylab.title("Transformata Fouriera")
 pylab.xlabel("Frequency [Hz]")
 pylab.ylabel("Amplitude")
 pylab.grid(True)
-pylab.plot(xf, 2.0/N * np.abs(yfft[:N//2]))
+pylab.plot(xf, 2.0/N * np.abs(yfft[0:N//2]))
 
 pylab.subplot(313)
 pylab.title("Odwrotna transformata Fouriera")
 pylab.xlabel("Frequency [Hz]")
 pylab.ylabel("Amplitude")
 pylab.grid(True)
-pylab.plot(xf, 2.0/N * np.abs(yifft[:N//2]))
+pylab.plot(x, yifft)
 
 
 pylab.show()
