@@ -62,6 +62,7 @@ def print_signal(file_csv, name, start, end, freq, fft):
         ifft = numpy.fft.ifft(fft)
         xf = numpy.linspace(0.0, 1.0/(2.0*T), N/2)
 
+        print(fft)
 
         pylab.subplot(411)
         pylab.grid(True)
@@ -80,7 +81,7 @@ def print_signal(file_csv, name, start, end, freq, fft):
         pylab.subplot(413)
         pylab.grid(True)
         pylab.title("Odwrotna transformata Fouriera")
-        pylab.xlabel("Frequency [Hz]")
+        pylab.xlabel("Time [ms]")
         pylab.ylabel("Amplitude")
         pylab.plot(x, ifft)
 
