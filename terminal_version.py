@@ -58,31 +58,38 @@ def print_signal(file_csv, name, start, end, freq, fft):
         T = 1.0 / freq
 
         x2 = numpy.linspace(0.0, N*T, N)
-        yfft = numpy.fft.fft(y)
-        yifft = numpy.fft.ifft(y)
+        fft = numpy.fft.fft(y)
+        ifft = numpy.fft.ifft(fft)
         xf = numpy.linspace(0.0, 1.0/(2.0*T), N/2)
 
 
-        pylab.subplot(311)
+        pylab.subplot(411)
         pylab.grid(True)
         pylab.title("EKG signal")
         pylab.xlabel("Time [ms]")
         pylab.ylabel("Amplitude")
-        pylab.plot(x,y,'r')
+        pylab.plot(x, y, 'r')
 
-        pylab.subplot(312)
+        pylab.subplot(412)
         pylab.grid(True)
         pylab.title("Transformata Fouriera")
         pylab.xlabel("Frequency [Hz]")
         pylab.ylabel("Amplitude")
-        pylab.plot(xf, 2.0/N * numpy.abs(yfft[:N//2]))
+        pylab.plot(xf, 2.0/N * numpy.abs(fft[:N//2]))
 
-        pylab.subplot(313)
+        pylab.subplot(413)
         pylab.grid(True)
         pylab.title("Odwrotna transformata Fouriera")
         pylab.xlabel("Frequency [Hz]")
         pylab.ylabel("Amplitude")
-        pylab.plot(xf, 2.0/N * numpy.abs(yifft[:N//2]))
+        pylab.plot(x, ifft)
+
+        pylab.subplot(414)
+        pylab.title("Porównanie sygnałów")
+        pylab.xlabel("Time [ms]")
+        pylab.ylabel("Amplitude")
+        pylab.grid(True)
+        pylab.plot(x, ifft, 'b', x, y, 'r')
 
         pylab.show()
 
