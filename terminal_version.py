@@ -57,12 +57,10 @@ def print_signal(file_csv, name, start, end, freq, fft):
         # sample spacing
         T = 1.0 / freq
 
-        x2 = numpy.linspace(0.0, N*T, N)
         fft = numpy.fft.fft(y)
         ifft = numpy.fft.ifft(fft)
         xf = numpy.linspace(0.0, 1.0/(2.0*T), N/2)
 
-        print(fft)
 
         pylab.subplot(411)
         pylab.grid(True)
