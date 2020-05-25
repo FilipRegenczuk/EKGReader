@@ -67,31 +67,39 @@ def print_signal(file_csv, name, start, end, freq, fft):
         T = 1.0 / freq
         
         # Filtering
-        fch = 60            # High cut-off frequency of the filter
+        fch1 = 60           # High cut-off frequency of the filter
+        fch2 = 5
         fcl = 4             # Low cut-off frequency of the filter
-        w = fch/(freq/2)    # Normalize the frequency
+        w1 = fch1/(freq/2)  # Normalize the frequency
+        w2 = fch2/(freq/2)
 
-        b, a = scipy.signal.butter(7, w, 'low')
-        filtered = scipy.signal.filtfilt(b, a, y2)
+        # Low cut-off filter
+        b1, a1 = scipy.signal.butter(7, w1, 'low')
+        filtered1 = scipy.signal.filtfilt(b1, a1, y2)
+
+        # High cut-off filter
+        b2, a2 = scipy.signal.butter(7, w2, 'high')
+        filtered2 = scipy.signal.filtfilt(b2, a2, filtered1)
+
 
         # Fourier
-        fft = numpy.fft.fft(filtered)
+        fft = numpy.fft.fft(filtered2)
         ifft = numpy.fft.ifft(fft)
         xf = numpy.linspace(0.0, 1.0/(2.0*T), N/2)
 
         pylab.subplot(311)
         pylab.grid(True)
-        pylab.title("EKG signal")
+        pylab.title("Sygnał EKG po filtracji dolnoprzepustowej")
         pylab.xlabel("Time [ms]")
         pylab.ylabel("Amplitude")
-        pylab.plot(x, y, 'r')
+        pylab.plot(x2, filtered1, 'r')
 
         pylab.subplot(312)
         pylab.grid(True)
-        pylab.title("Po filtracji")
+        pylab.title("Po filtracji górnoprzepustowej")
         pylab.xlabel("Time [ms]")
         pylab.ylabel("Amplitude")
-        pylab.plot(x2, filtered)
+        pylab.plot(x2, filtered2)
 
         pylab.subplot(313)
         pylab.grid(True)
