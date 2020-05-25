@@ -2,6 +2,8 @@ import pylab
 import pandas
 import sys
 import numpy
+import scipy
+from scipy import signal
 
 
 # Function converting .txt file with spaces to EKG .csv file
@@ -56,24 +58,42 @@ def print_signal(file_csv, name, start, end, freq, fft):
         y2 = [value for value in y if str(value) != 'nan']
         x2 = list(range(0, len(y2)))
 
+        for i in x2:
+            x2[i] = x2[i] * 1/freq * 1000
+
         # Number of samplepoints
         N = len(x2)
         # sample spacing
         T = 1.0 / freq
+        
+        # Filtering
+        fch = 60            # High cut-off frequency of the filter
+        fcl = 4             # Low cut-off frequency of the filter
+        w = fch/(freq/2)    # Normalize the frequency
 
-        fft = numpy.fft.fft(y2)
+        b, a = scipy.signal.butter(7, w, 'low')
+        filtered = scipy.signal.filtfilt(b, a, y2)
+
+        # Fourier
+        fft = numpy.fft.fft(filtered)
         ifft = numpy.fft.ifft(fft)
         xf = numpy.linspace(0.0, 1.0/(2.0*T), N/2)
 
-
-        pylab.subplot(211)
+        pylab.subplot(311)
         pylab.grid(True)
         pylab.title("EKG signal")
         pylab.xlabel("Time [ms]")
         pylab.ylabel("Amplitude")
         pylab.plot(x, y, 'r')
 
-        pylab.subplot(212)
+        pylab.subplot(312)
+        pylab.grid(True)
+        pylab.title("Po filtracji")
+        pylab.xlabel("Time [ms]")
+        pylab.ylabel("Amplitude")
+        pylab.plot(x2, filtered)
+
+        pylab.subplot(313)
         pylab.grid(True)
         pylab.title("Transformata Fouriera")
         pylab.xlabel("Frequency [Hz]")
