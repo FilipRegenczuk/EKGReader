@@ -52,43 +52,47 @@ def print_signal(file_csv, name, start, end, freq, fft):
         pylab.show()
     else:
 
+        # Remove None values in signal
+        y2 = [value for value in y if str(value) != 'nan']
+        x2 = list(range(0, len(y2)))
+
         # Number of samplepoints
-        N = len(x)
+        N = len(x2)
         # sample spacing
         T = 1.0 / freq
 
-        fft = numpy.fft.fft(y)
+        fft = numpy.fft.fft(y2)
         ifft = numpy.fft.ifft(fft)
         xf = numpy.linspace(0.0, 1.0/(2.0*T), N/2)
 
 
-        pylab.subplot(411)
+        pylab.subplot(211)
         pylab.grid(True)
         pylab.title("EKG signal")
         pylab.xlabel("Time [ms]")
         pylab.ylabel("Amplitude")
         pylab.plot(x, y, 'r')
 
-        pylab.subplot(412)
+        pylab.subplot(212)
         pylab.grid(True)
         pylab.title("Transformata Fouriera")
         pylab.xlabel("Frequency [Hz]")
         pylab.ylabel("Amplitude")
         pylab.plot(xf, 2.0/N * numpy.abs(fft[:N//2]))
 
-        pylab.subplot(413)
-        pylab.grid(True)
-        pylab.title("Odwrotna transformata Fouriera")
-        pylab.xlabel("Time [ms]")
-        pylab.ylabel("Amplitude")
-        pylab.plot(x, ifft)
+        # pylab.subplot(413)
+        # pylab.grid(True)
+        # pylab.title("Odwrotna transformata Fouriera")
+        # pylab.xlabel("Time [ms]")
+        # pylab.ylabel("Amplitude")
+        # pylab.plot(x, ifft)
 
-        pylab.subplot(414)
-        pylab.title("Porównanie sygnałów")
-        pylab.xlabel("Time [ms]")
-        pylab.ylabel("Amplitude")
-        pylab.grid(True)
-        pylab.plot(x, ifft, 'b', x, y, 'r')
+        # pylab.subplot(414)
+        # pylab.title("Porównanie sygnałów")
+        # pylab.xlabel("Time [ms]")
+        # pylab.ylabel("Amplitude")
+        # pylab.grid(True)
+        # pylab.plot(x, ifft, 'b', x, y, 'r')
 
         pylab.show()
 
